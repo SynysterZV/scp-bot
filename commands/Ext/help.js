@@ -42,7 +42,7 @@ module.exports = {
             .setTimestamp()
 
         for(let i in coms){
-            embed.addField(`${message.client.prefix}${coms[i].help.name}`, `${coms[i].help.desc}`);
+            embed.addField(`${message.client.prefix}${coms[i].help.name}`, `${coms[i].config.usage || coms[i].help.desc}`);
         }
         
         message.channel.send(embed).then(async (m) => {
@@ -80,7 +80,7 @@ module.exports = {
                 embed.setFooter(`Page ${conf.page > maxPages ? maxPages : conf.page} of ${maxPages}`)
 
                 for(let i in coms){
-                    embed.addField(`${message.client.prefix}${coms[i].help.name}`, `${coms[i].help.desc}`);
+                    embed.addField(`${message.client.prefix}${coms[i].help.name}`, `${coms[i].config.usage || coms[i].help.desc}`);
                 }
 
                 m.edit(embed)
@@ -102,7 +102,7 @@ module.exports = {
                 embed.setFooter(`Page ${conf.page > maxPages ? maxPages : conf.page} of ${maxPages}`)
 
                 for(let i in coms){
-                    embed.addField(`${message.client.prefix}${coms[i].help.name}`, `${coms[i].help.desc}`);
+                    embed.addField(`${message.client.prefix}${coms[i].help.name}`, `${coms[i].config.usage || coms[i].help.desc}`);
                 }
 
                 m.edit(embed);
