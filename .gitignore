@@ -1,0 +1,5 @@
+logs/
+*.code-workspace
+module-frame.js
+auth.json
+node_modules/

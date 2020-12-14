@@ -1,0 +1,21 @@
+{
+    "name": "scpbot",
+    "version": "1.0.0",
+    "description": "SCP BOT",
+    "author": "Synyster#8093",
+    "main": "bot.js",
+    "dependencies": {
+        "chalk": "^4.1.0",
+        "discord.js": "^12.5.1",
+        "erela.js": "^2.3.0",
+        "erela.js-spotify": "^1.2.0",
+        "fs": "0.0.1-security",
+        "genius-lyrics-api": "^3.0.3",
+        "graphql": "^15.4.0",
+        "graphql-request": "^3.3.0",
+        "request": "^2.88.2",
+        "string-progressbar": "^1.0.1",
+        "twit": "^2.2.11",
+        "valid-url": "^1.0.9"
+    }
+}

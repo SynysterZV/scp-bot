@@ -1,0 +1,16 @@
+{
+    "token": "Discord Token",
+    "apikeys": {
+        "twitter": {
+            "conkey": "Twitter Consumer Key",
+            "consec": "Twitter Consumer Secret",
+            "acckey": "Twitter Access Key",
+            "accsec": "Twitter Access Key Secret"
+        },
+        "spotify": {
+            "spotifyID":"Spotify API ID",
+            "spotifySecret":"Spotify API Secret"
+        },
+        "geniusToken":"Genius API Token"
+    }
+}
