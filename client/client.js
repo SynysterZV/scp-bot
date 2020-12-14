@@ -4,19 +4,14 @@ const { token, apikeys } = require('./auth.json');
 const { prefix } = require('./config.json');
 const { Manager } = require('erela.js');
 const Spotify = require('erela.js-spotify');
-const Twit = require('twit');
+
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 client.prefix = prefix;
 client.token = token;
 client.apikeys = apikeys
-client.T = new Twit({
-    consumer_key: apikeys.twitter.conkey,
-    consumer_secret: apikeys.twitter.consec,
-    access_token: apikeys.twitter.acckey,
-    access_token_secret: apikeys.twitter.accsec,
-});
+
 
 /*
 -------------------------
