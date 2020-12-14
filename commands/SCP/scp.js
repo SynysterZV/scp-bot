@@ -11,7 +11,7 @@ module.exports = {
         args: true,
         usage: '{SCP # | random}',
         perms: false,
-        role: 'SCP',
+        role: false,
     },
     
     execute(message, args) {

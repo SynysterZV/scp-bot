@@ -17,6 +17,8 @@ module.exports = {
 
         message.delete()
 
+        
+
         function comsPage(conf, array) {
             const end = conf.page * conf.multiple
             const start = end - conf.multiple
@@ -43,6 +45,24 @@ module.exports = {
 
         for(let i in coms){
             embed.addField(`${message.client.prefix}${coms[i].help.name}`, `${coms[i].config.usage || coms[i].help.desc}`);
+        }
+
+        if(args.length) {
+            const command = message.client.commands.get(args[0].toLowerCase()) || message.client.commands.find(cmd => cmd.help.aliases && cmd.help.aliases.includes(args[0].toLowerCase()));
+            if (!command) return message.reply('Please specify a proper command');
+
+            embed.setFooter(message.guild, message.guild.iconURL())
+            embed.setTitle(command.help.name)
+            embed.setColor(0xff0000)
+            embed.setTimestamp()
+            embed.setDescription(command.help.desc)
+            embed.fields = []
+            embed.addFields(
+                { name: 'Usage', value: `${command.config.usage || 'None' }`},
+                { name: 'Aliases', value: `${command.help.aliases.join(', ') || 'None'}`}
+            )
+
+            return message.channel.send(embed);
         }
         
         message.channel.send(embed).then(async (m) => {

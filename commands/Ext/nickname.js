@@ -12,7 +12,7 @@ module.exports = {
         role: false,
     },
 
-    execute(message, args) {
+    async execute(message, args) {
         const member = message.mentions.users.first() ? message.guild.member(message.mentions.users.first()) : message.member;
         let nick = message.mentions.users.first() ? args.slice(1).join() : args.join(' ');
 
@@ -21,6 +21,7 @@ module.exports = {
         }
         if (message.guild.ownerID == member.id) return message.reply('I cannot change the owners nickname');
         if (nick == 'remove') nick = member.user.username;
-        member.setNickname(nick).catch(e => (message.reply(e)));
+        
+        await member.setNickname(nick).catch(e => message.reply(`${e}`));
     }
 }

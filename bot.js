@@ -1,4 +1,6 @@
 const { client } = require('./client/client')
+const { MessageEmbed } = require('discord.js');
+const { applyImage } = require('./client/joinimage')
 
 client.on('ready', async () => {
     console.log('I\'m Ready!')
@@ -9,7 +11,25 @@ client.on('ready', async () => {
     client.manager.init(client.user.id);
 })
 
+client.on('guildMemberAdd', async (member) => {
+    applyImage(member);
+    return;
+})
+
 client.on('message', async message => {
+
+    if (!message.content.startsWith(client.prefix) && !message.guild) {
+        if (message.author.bot) return;
+        const embed = new MessageEmbed()
+            .setTitle('DM')
+            .setTimestamp()
+            .setDescription(`${message.content}`)
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setColor(0xff0000)
+
+        client.users.cache.get('372516983129767938').send(embed)
+    }
+
     if(!message.content.startsWith(client.prefix) || message.author.bot) return;
 
     const args = message.content.slice(client.prefix.length).trim().split(/\s+/);
@@ -17,7 +37,7 @@ client.on('message', async message => {
     const commandName = args.shift().toLowerCase();
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.help.aliases && cmd.help.aliases.includes(commandName));
 
-    if (!command) return;
+    if(!command) return;
 
     if(command.config.perms && !message.member.hasPermission(command.config.perms)) return message.reply('you dont have permission to use this command!')
 
