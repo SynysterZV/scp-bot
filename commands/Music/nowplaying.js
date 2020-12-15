@@ -20,8 +20,9 @@ module.exports = {
         if(!player) return message.reply('There is no player for this guild');
 
         const { title, requester, thumbnail, uri, duration } = player.queue.current;
+        const slicenum = duration > 60*60*1000 ? 12 : 14
 
-        const bar = new Date(player.position).toISOString().slice(14, 19) + ' [' + createBar(duration == 0 ? player.position : duration, player.position, 15)[0] + '] ' + new Date(duration).toISOString().slice(14, 19);
+        const bar = new Date(player.position).toISOString().slice(slicenum, 19) + ' [' + createBar(duration == 0 ? player.position : duration, player.position, 15)[0] + '] ' + new Date(duration).toISOString().slice(slicenum, 19);
         const guild = message.guild;
         const embed = new MessageEmbed()
         .setAuthor(requester.tag, requester.displayAvatarURL())

@@ -32,7 +32,6 @@ module.exports = {
 
         const tracks = queue.slice(start, end);
         const rem = `${new Date(player.position).toISOString().slice(14, 19)} / ${new Date(queue.current.duration).toISOString().slice(14, 19)}`;
-        console.log(rem);
         if (queue.current) embed.addField('Current', `[${queue.current.title}](${queue.current.uri}) - ${rem}`);
 
         if (!tracks.length) embed.setDescription(`No tracks in ${page > 1 ? `page ${page}` : 'the queue'}.`);
