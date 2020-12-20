@@ -8,9 +8,14 @@ const Spotify = require('erela.js-spotify');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+client.interactions = new Discord.Collection()
 client.prefix = prefix;
 client.token = token;
 client.apikeys = apikeys
+
+client.headers = {
+    Authorization: `Bot ${client.token}`
+}
 
 
 /*
@@ -22,12 +27,16 @@ client.apikeys = apikeys
 
 const commandFolders = fs.readdirSync('./commands', { withFileTypes: true }).filter(dirent => dirent.isDirectory());
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const interactions = fs.readdirSync('./interactions').filter(file => file.endsWith('.js'));
+
+// Top level commands from command folder 
 
 for(const file of commandFiles) {
     const command = require(`../commands/${file}`)
     client.commands.set(command.help.name, command);
 }
 
+// Searches command folder for folders, gets commands from those folders
 
 for(const folder of commandFolders) {
     const commandFiles = fs.readdirSync(`./commands/${folder.name}`).filter(file => file.endsWith('.js'))
@@ -36,6 +45,13 @@ for(const folder of commandFolders) {
         const command = require(`../commands/${folder.name}/${file}`)
         client.commands.set(command.help.name, command);
     }
+}
+
+// Interactions for Slash Commands
+
+for(const file of interactions) {
+    const interaction = require(`../interactions/${file}`)
+    client.interactions.set(interaction.name, interaction)
 }
 
 /*

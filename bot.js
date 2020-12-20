@@ -1,26 +1,33 @@
 const { client } = require('./client/client')
-const { MessageEmbed } = require('discord.js');
+const Discord  = require('discord.js');
 const { applyImage } = require('./client/joinimage')
+const { post } = require('axios');
+const fetch = require('node-fetch')
 
-client.on('ready', async () => {
-    console.log('I\'m Ready!')
-    console.log("\x1b[36m",`\nLogged in as: ${client.user.tag}`, "\x1b[0m")
-    client.user.setPresence({
-        status: 'dnd'
-    })
-    client.manager.init(client.user.id);
+client.on('ready', () => {
+    console.log('Ready!')
 })
+
+
 
 client.on('guildMemberAdd', async (member) => {
     applyImage(member);
     return;
 })
 
+client.ws.on('INTERACTION_CREATE', async interaction => {
+    const intname = interaction.data.name
+    const int = client.interactions.get(intname)
+    int.run(interaction, client)
+})
+
+
+
 client.on('message', async message => {
 
     if (!message.content.startsWith(client.prefix) && !message.guild) {
         if (message.author.bot) return;
-        const embed = new MessageEmbed()
+        const embed = new Discord.MessageEmbed()
             .setTitle('DM')
             .setTimestamp()
             .setDescription(`${message.content}`)
@@ -55,7 +62,7 @@ client.on('message', async message => {
     }
 
     try {
-        command.execute(message, args);
+        command.execute(message, args, client);
     }
     catch(error){
         console.log(error)

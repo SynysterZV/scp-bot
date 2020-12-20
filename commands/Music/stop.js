@@ -16,7 +16,7 @@ module.exports = {
         const player = message.client.manager.get(message.guild.id);
         const { channel } = message.member.voice;
 
-        if (!channel) return message.repy('You need to be in a voice channel.');
+        if (!channel) return message.reply('You need to be in a voice channel.');
         if (channel.id !== player.voiceChannel) return message.reply('Youre not in the same voice channel');
 
         player.destroy();
