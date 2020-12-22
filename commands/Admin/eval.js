@@ -5,7 +5,7 @@ const clean = text => {
         return text;
   }
 
-const { MessageEmbed } = require(`discord.js`)
+const { MessageEmbed, SnowflakeUtil } = require(`discord.js`)
 
 module.exports = {
     help: {
@@ -22,9 +22,9 @@ module.exports = {
     },
 
     async execute(message, args) {
+
         try {
             const code = args.join(' ').replace(/^`{1,3}|`{1,3}$/g, '')
-            console.log(code)
             let evaled = await eval(code)
 
             if (typeof evaled !== 'string')

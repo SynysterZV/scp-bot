@@ -1,7 +1,7 @@
 const { post } = require('axios')
 
 module.exports = {
-    name: 'test',
+    name: 'channame',
     async run(interaction, client) {
         const headers = client.headers
         const mem = interaction.member
@@ -10,7 +10,7 @@ module.exports = {
             method: 'POST',
             type: 3,
             data: {
-                content: `${mem.nick || mem.user.username}`
+                content: `${client.channels.cache.get(`${interaction.data.options[0].value}`).setName(`${interaction.data.options[1].value}`).then(m => this.m)}`
             },
             headers
             

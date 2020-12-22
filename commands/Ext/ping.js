@@ -11,8 +11,10 @@ module.exports = {
         role: false,
     },
 
-    execute(message) {
-        console.log(Date.now())
-        message.reply(`Pong! Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(message.client.ws.ping)}ms.`);
+    async execute(message) {
+        message.channel.send('Loading...').then(async m => {
+            const ping = m.createdTimestamp - message.createdTimestamp
+            await m.edit(`Pong! Latency is ${ping}ms | API Latency is ${message.client.ws.ping}ms`);
+        })
     },
 };

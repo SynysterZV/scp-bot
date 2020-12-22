@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
 const fs = require('fs');
-const { token, apikeys } = require('./auth.json');
-const { prefix } = require('./config.json');
 const { Manager } = require('erela.js');
 const Spotify = require('erela.js-spotify');
+
+const { token, apikeys } = require('./auth.json');
+const { prefix } = require('./config.json');
 
 
 const client = new Discord.Client();

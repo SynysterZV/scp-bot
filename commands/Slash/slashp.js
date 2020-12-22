@@ -1,8 +1,8 @@
 module.exports = {
     help: {
-        name: 'emoji',
+        name: 'interactions',
         desc: 's',
-        aliases: [''],
+        aliases: ['int'],
     },
 
     config: {
@@ -41,7 +41,7 @@ module.exports = {
     
             else if(args[0] == 'remove') {
                 const commands = await message.client.api.applications(message.client.user.id).guilds(message.guild.id).commands.get()
-                const emoji = commands.find(e => e.name == 'emoji')
+                const emoji = commands.find(e => e.name == args[1])
                 try {
                     message.client.api.applications(message.client.user.id).guilds(message.guild.id).commands(emoji.id).delete()
                 }
@@ -53,9 +53,12 @@ module.exports = {
 
             else if(args[0] == 'edit') {
                 const commands = await message.client.api.applications(message.client.user.id).guilds(message.guild.id).commands.get()
-                const emoji = commands.find(e => e.name == 'emoji')
+                const com = commands.find(e => e.name == args[1])
+                
+                if(com.name == 'emoji') {
                 try {
-                    message.client.api.applications(message.client.user.id).guilds(message.guild.id).commands(emoji.id).patch({
+                    console.log(com)
+                    message.client.api.applications(message.client.user.id).guilds(message.guild.id).commands(com.id).patch({
                         data: {
                             name: 'emoji',
                             description: 'emoji',
@@ -71,10 +74,6 @@ module.exports = {
                                     value: `<:sweettanner:721467090757877790>`
                                 },
                                 {
-                                    name: 'DJS',
-                                    value: `<:notLikeCat:356879787962269707>`
-                                },
-                                {
                                     name: 'ButterCat',
                                     value: `<:confusedBecel:738059787412963419>`
                                 },
@@ -85,6 +84,10 @@ module.exports = {
                                 {
                                     name: 'VibeCat',
                                     value: '<a:wutvibin:738566075528249354>'
+                                },
+                                {
+                                    name: 'PopCat',
+                                    value: '<a:popopo:779807376060448779>'
                                 }
                             ]
                         }
@@ -93,6 +96,27 @@ module.exports = {
                 }
                 catch(e){
                     console.log(e);
+                }
+            }
+
+                if(com.name == 'send') {
+                    try {
+                        message.client.api.applications(message.client.user.id).guilds(message.guild.id).commands(com.id).patch({
+                            data: {
+                                    name: 'send',
+                                    description: 'send',
+                                    options: [
+                                    {
+                                        name: 'str',
+                                        description: 'str',
+                                        type: 3,
+                                        required: true
+                                }
+                                    ]
+                                }})
+                    } catch (e){
+                        console.log(e)
+                    }
                 }
             }
     }

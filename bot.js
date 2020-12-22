@@ -2,7 +2,7 @@ const { client } = require('./client/client')
 const Discord  = require('discord.js');
 const { applyImage } = require('./client/joinimage')
 const { post } = require('axios');
-const fetch = require('node-fetch')
+const { Tags } = require('./dbInit')
 
 client.on('ready', () => {
     console.log('Ready!')
@@ -11,8 +11,10 @@ client.on('ready', () => {
 
 
 client.on('guildMemberAdd', async (member) => {
-    applyImage(member);
-    return;
+    const embed = new Discord.MessageEmbed()
+        .setTitle('Member Joined')
+        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL(), `https://discord.com/users/${message.author.id}`)
+        .setDescription('Joined:')
 })
 
 client.ws.on('INTERACTION_CREATE', async interaction => {
@@ -24,6 +26,7 @@ client.ws.on('INTERACTION_CREATE', async interaction => {
 
 
 client.on('message', async message => {
+    
 
     if (!message.content.startsWith(client.prefix) && !message.guild) {
         if (message.author.bot) return;
@@ -41,10 +44,22 @@ client.on('message', async message => {
 
     const args = message.content.slice(client.prefix.length).trim().split(/\s+/);
 
+    const tagMaybe = args
+    const tagAgain = tagMaybe.join(' ').split('|').shift().trim()
     const commandName = args.shift().toLowerCase();
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.help.aliases && cmd.help.aliases.includes(commandName));
 
-    if(!command) return;
+    if(!command) {
+        const tagName = tagAgain
+
+        const tag = await Tags.findOne({ where: { name: tagName } });
+        if (tag) {
+
+            tag.increment('usage_count');
+            return message.channel.send(`${tag.get('description')}`);
+        }
+        return;
+    };
 
     if(command.config.perms && !message.member.hasPermission(command.config.perms)) return message.reply('you dont have permission to use this command!')
 

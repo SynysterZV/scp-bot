@@ -18,6 +18,8 @@
         "graphql-request": "^3.3.0",
         "node-fetch": "^2.6.1",
         "request": "^2.88.2",
+        "sequelize": "^6.3.5",
+        "sqlite3": "^5.0.0",
         "string-progressbar": "^1.0.1",
         "twit": "^2.2.11",
         "valid-url": "^1.0.9"

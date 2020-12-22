@@ -1,5 +1,6 @@
 const Canvas = require('canvas');
 const Discord = require('discord.js');
+const fs = require('fs')
 
 const applyText = (canvas, text) => {
     const ctx = canvas.getContext('2d');
@@ -18,15 +19,14 @@ const applyText = (canvas, text) => {
 
 
 const applyImage = async (member) => {
-    const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome');
+    const channel = member.guild.channels.cache.find(ch => ch.name === 'member-log');
     if (!channel) return console.log('Not Found');
 
     const canvas = Canvas.createCanvas(700, 250);
 
     const ctx = canvas.getContext('2d');
 
-
-    const background = await Canvas.loadImage('./canvas2.jpg');
+    const background = await Canvas.loadImage('./images/welcome/canvas2.jpg');
 
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
