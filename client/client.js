@@ -7,11 +7,10 @@ const { token, apikeys } = require('./auth.json');
 const { prefix } = require('./config.json');
 
 
-const client = new Discord.Client();
+const client = new Discord.Client({ restTimeOffset: 100 });
 client.commands = new Discord.Collection();
 client.interactions = new Discord.Collection()
 client.prefix = prefix;
-client.token = token;
 client.apikeys = apikeys
 
 client.headers = {

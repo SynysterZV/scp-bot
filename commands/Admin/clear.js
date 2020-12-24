@@ -18,7 +18,7 @@ module.exports = {
         if (amount < 1 || amount > 100) return message.reply('Amount needs to be 1-100');
 
         await message.channel.messages.fetch({ limit: amount }).then(messages => {
-            message.channel.bulkDelete(messages);
+            message.channel.bulkDelete(messages, true);
         })
         
     }

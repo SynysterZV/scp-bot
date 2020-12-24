@@ -88,6 +88,10 @@ module.exports = {
                                 {
                                     name: 'PopCat',
                                     value: '<a:popopo:779807376060448779>'
+                                },
+                                {
+                                    name: 'KMS',
+                                    value: '<a:kms:758129314138292255>'
                                 }
                             ]
                         }
