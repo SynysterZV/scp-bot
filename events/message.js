@@ -1,6 +1,7 @@
 const { Tags } = require('../dbInit')
 
 module.exports = async (message) => {
+    const cusswords = [ 'fuck', 'shit' ]
     if (!message.content.startsWith(message.client.prefix)&& !message.guild) {
         if (message.author.bot) return;
         const embed = new Discord.MessageEmbed()
@@ -13,7 +14,7 @@ module.exports = async (message) => {
         message.client.users.cache.get('372516983129767938').send(embed)
     }
 
-    if((!message.content.startsWith(message.client.prefix)) || message.author.bot) return;
+    if(!message.content.startsWith(message.client.prefix) || message.author.bot) return;
 
 
     const args = message.content.slice(message.client.prefix.length).trim().split(/\s+/);

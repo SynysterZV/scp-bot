@@ -10,10 +10,12 @@ module.exports = {
         if(typeof evaled !== 'string') {
             evaled = require('util').inspect(evaled)
         }
+
         post(`https://discord.com/api/v8/interactions/${interaction.id}/${interaction.token}/callback`,
         {
             type: 3,
             data: {
+                flags: 1<<6,
                 content: `\`\`\`${evaled}\`\`\``,
             },
             headers

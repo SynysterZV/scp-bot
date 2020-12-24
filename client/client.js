@@ -7,14 +7,15 @@ const { token, apikeys } = require('./auth.json');
 const { prefix } = require('./config.json');
 
 
-const client = new Discord.Client({ restTimeOffset: 100 });
+const client = new Discord.Client({ restTimeOffset: 100, partials: ['MEMBERS']});
 client.commands = new Discord.Collection();
+client.token = token
 client.interactions = new Discord.Collection()
 client.prefix = prefix;
 client.apikeys = apikeys
 
 client.headers = {
-    Authorization: `Bot ${client.token}`
+    Authorization: `Bot ${process.env.TOKEN}`
 }
 
 
@@ -54,6 +55,24 @@ for(const file of interactions) {
     client.interactions.set(interaction.name, interaction)
 }
 
+fs.readdir('./events', (err, files) => {
+    if (err) throw err;
+    files.forEach((file) => {
+        const event = require(`../events/${file}`);
+        let eventName = file.split('.')[0]
+        client.on(eventName, event.bind(null))
+        
+    })
+})
+
+client.ws.on('INTERACTION_CREATE', async interaction => {
+
+    const intname = interaction.data.name
+    const int = client.interactions.get(intname)
+
+    int.run(interaction, client)
+})
+
 /*
 ----------------------
         MUSIC
@@ -69,7 +88,7 @@ client.manager = new Manager({
     nodes: [
         {
             host: 'localhost',
-            port: 2333,
+            port: 2334,
             password: 'youshallnotpass',
         },
     ],
