@@ -1,21 +1,21 @@
-module.exports = (member) => {
+module.exports = async (member) => {
     const Discord = require('discord.js');
-    const channel = member.guild.channels.cache.find(c => c.name === 'member-log')
     member.client.guilds.fetch(member.guild.id)
-    if (!channel) return;
+    const channel = member.guild.channels.cache.find(c => c.name === 'member-log')
+    if(!channel) return;
     const embed = new Discord.MessageEmbed()
-        .setTitle('Member Joined')
+        .setTitle('Member Left')
         .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL(), `https://discord.com/users/${member.user.id}`)
         .addFields(
             {
                 name: '**Created At:**', value: new Date(member.user.createdAt).toDateString(), inline: true,
             },
             {
-                name: '**Joined:**', value: new Date(member.joinedAt).toDateString(), inline: true,
+                name: '**Left:**', value: new Date(Date.now()).toDateString(), inline: true,
             },
             {
                 name: '\u200b', value: '\u200b', inline: true,
-            },
+            }, 
             {
                 name: '**ID:**', value: member.user.id, inline: true,
             },
@@ -25,8 +25,6 @@ module.exports = (member) => {
         )
         .setFooter(member.guild.name, member.guild.iconURL())
         .setThumbnail(member.user.displayAvatarURL({ size: 512 }))
-        .setColor('GREEN')
+        .setColor('RED')
     channel.send(embed)
 }
-
-

@@ -24,7 +24,22 @@ const Tags = sequelize.define('tags', {
     pfp: Sequelize.TEXT,
 });
 
+const EXP = sequelize.define('exp', {
+    username: Sequelize.TEXT,
+    guildID: Sequelize.TEXT,
+    userID: {
+        type: Sequelize.TEXT,
+        primaryKey: true,
+    },
+    exp: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: false
+    }
+});
+
 Tags.sync();
+EXP.sync();
 console.log('DB Synced!')
 
-module.exports = { Tags }
+module.exports = { Tags, EXP }

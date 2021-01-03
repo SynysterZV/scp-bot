@@ -13,7 +13,7 @@ if (command.config.args && !args.length) {
     let reply = `You didnt provide any arguments, ${message.author}`;
 
     if(command.config.usage){
-        reply += `\nThe correct usage for this command would be \`${client.prefix}${command.help.name} ${command.config.usage}\``
+        reply += `\nThe correct usage for this command would be \`${message.client.prefix}${command.help.name} ${command.config.usage}\``
     }
     return message.channel.send(reply)
 }

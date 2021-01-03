@@ -2,15 +2,18 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const { Manager } = require('erela.js');
 const Spotify = require('erela.js-spotify');
+const Keyv = require('keyv')
 
 const { token, apikeys } = require('./auth.json');
 const { prefix } = require('./config.json');
+const EXP = require('../dbInit');
 
 
 const client = new Discord.Client({ restTimeOffset: 100, partials: ['MEMBERS']});
 client.commands = new Discord.Collection();
 client.token = token
 client.interactions = new Discord.Collection()
+client.prefixes = new Keyv('sqlite://../database.sqlite');
 client.prefix = prefix;
 client.apikeys = apikeys
 
@@ -26,26 +29,21 @@ client.headers = {
 -------------------------
 */
 
-const commandFolders = fs.readdirSync('./commands', { withFileTypes: true }).filter(dirent => dirent.isDirectory());
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commandFolders = fs.readdirSync('./commands', { withFileTypes: true })
 const interactions = fs.readdirSync('./interactions').filter(file => file.endsWith('.js'));
 
-// Top level commands from command folder 
-
-for(const file of commandFiles) {
-    const command = require(`../commands/${file}`)
-    client.commands.set(command.help.name, command);
-}
-
-// Searches command folder for folders, gets commands from those folders
-
 for(const folder of commandFolders) {
+    if(folder.isDirectory()) {
     const commandFiles = fs.readdirSync(`./commands/${folder.name}`).filter(file => file.endsWith('.js'))
 
     for (const file of commandFiles) {
         const command = require(`../commands/${folder.name}/${file}`)
         client.commands.set(command.help.name, command);
     }
+} else if (folder.name.endsWith('.js') && !folder.isDirectory()) {
+    const command = require(`../commands/${folder.name}`)
+    client.commands.set(command.help.name, command)
+}
 }
 
 // Interactions for Slash Commands
@@ -54,6 +52,8 @@ for(const file of interactions) {
     const interaction = require(`../interactions/${file}`)
     client.interactions.set(interaction.name, interaction)
 }
+
+// Events Handlers 
 
 fs.readdir('./events', (err, files) => {
     if (err) throw err;
@@ -72,6 +72,16 @@ client.ws.on('INTERACTION_CREATE', async interaction => {
 
     int.run(interaction, client)
 })
+
+client.on('CLIENT_DESTROY', async client => {
+    setTimeout(() => {
+        client.login(client.token)
+        let reload = `Reloaded! Client was alive for ${Number(client.uptime) / 1000} seconds`
+        client.emit('ready', reload)
+    }, 5000)
+})
+
+client.prefixes.on('error', err => console.error('Keyv connection error:', err));
 
 /*
 ----------------------
@@ -136,4 +146,4 @@ client.manager = new Manager({
 
 /*------------------------------------------------------------------------------------------------------------------*/
 
-module.exports = { client }
+module.exports = client 

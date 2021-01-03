@@ -1,7 +1,5 @@
 const { Tags } = require('../dbInit')
-
 module.exports = async (message) => {
-    const cusswords = [ 'fuck', 'shit' ]
     if (!message.content.startsWith(message.client.prefix)&& !message.guild) {
         if (message.author.bot) return;
         const embed = new Discord.MessageEmbed()
@@ -14,10 +12,16 @@ module.exports = async (message) => {
         message.client.users.cache.get('372516983129767938').send(embed)
     }
 
-    if(!message.content.startsWith(message.client.prefix) || message.author.bot) return;
+    let prefix;
+    if (message.content.startsWith(message.client.prefix)) {
+        prefix = message.client.prefix
+    } else {
+        const guildPrefix = await message.client.prefixes.get(message.guild.id);
+        if (message.content.startsWith(guildPrefix)) prefix = guildPrefix
+    }
+    if (!prefix) return
 
-
-    const args = message.content.slice(message.client.prefix.length).trim().split(/\s+/);
+    const args = message.content.slice(prefix.length).trim().split(/\s+/);
 
     const tagMaybe = args
     const tagAgain = tagMaybe.join(' ').split('|').shift().trim()
@@ -38,7 +42,7 @@ module.exports = async (message) => {
         return;
     };
 
-    require('../client/commandOptions/options').options(message, command, args)
+    if(require('../client/commandOptions/options').options(message, command, args)) return;
 
     try {
         command.execute(message, args, message.client);

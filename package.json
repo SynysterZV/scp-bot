@@ -5,6 +5,7 @@
     "author": "Synyster#8093",
     "main": "bot.js",
     "dependencies": {
+        "@keyv/sqlite": "^2.0.2",
         "axios": "^0.21.0",
         "canvas": "^2.6.1",
         "chalk": "^4.1.0",
@@ -17,13 +18,16 @@
         "got": "^11.8.1",
         "graphql": "^15.4.0",
         "graphql-request": "^3.3.0",
+        "keyv": "^4.0.3",
         "node-fetch": "^2.6.1",
+        "querystring": "^0.2.0",
         "request": "^2.88.2",
         "sequelize": "^6.3.5",
         "sqlite3": "^5.0.0",
         "string-progressbar": "^1.0.1",
         "time-stamp": "^2.2.0",
         "twit": "^2.2.11",
-        "valid-url": "^1.0.9"
+        "valid-url": "^1.0.9",
+        "windows-build-tools": "^5.2.2"
     }
 }
